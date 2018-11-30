@@ -1,20 +1,20 @@
-targets = mmm_mpi mandelbrot_mpi  
-components_mmm_mpi := mmm_mpi.o matrix_checksum.o
-components_mandelbrot_mpi := mandelbrot_mpi.o matrix_checksum.o
+targets = gaussian_blur_serial gaussian_blur_cuda 
+components_gaussian_blur_serial := gaussian_blur_serial.o
+components_gaussian_blur_cuda := gaussian_blur_cuda.o 
 
-CC = mpicc
-WARN := -Wall -Werror
+CC = nvcc 
+WARN := -Xcompiler -Wall -Xcompiler -Werror
 # CFLAGS = -g
-OPTIMIZATION := -O2
+OPTIMIZATION := -Xcompiler -O2
 LIBS := -lm
 
 all: $(targets)
 
-mmm_mpi: $(components_mmm_mpi)
+gaussian_blur_serial: $(components_gaussian_blur_serial)
 	@echo "LN $@"
 	$(CC) $(OPTIMIZATION) $(WARN) -o $@ $^ $(LIBS)
 
-mandelbrot_mpi: $(components_mandelbrot_mpi)
+gaussian_blur_cuda: $(components_gaussian_blur_cuda)
 	@echo "LN $@"
 	$(CC) $(OPTIMIZATION) $(WARN) -o $@ $^ $(LIBS)
 
@@ -24,6 +24,6 @@ mandelbrot_mpi: $(components_mandelbrot_mpi)
 
 clean:
 	@echo "clean"
-	rm -f $(components_mmm_mpi)
-	rm -f $(components_mandelbrot_mpi) 
+	rm -f $(components_gaussian_blur_serial)
+	rm -f $(components_gaussian_blur_cuda) 
 	rm -f $(targets)
