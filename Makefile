@@ -2,10 +2,13 @@ targets = gaussian_blur_serial gaussian_blur_cuda
 components_gaussian_blur_serial := gaussian_blur_serial.o
 components_gaussian_blur_cuda := gaussian_blur_cuda.o 
 
-CC = nvcc 
-WARN := -Xcompiler -Wall -Xcompiler -Werror
-# CFLAGS = -g
-OPTIMIZATION := -Xcompiler -O2
+NCC = nvcc 
+CC = gcc 
+WARN := -Wall -Werror
+CWARN := -Xcompiler -Wall -Xcompiler -Werror
+
+OPTIMIZATION := -O2
+COPTIMIZATION := -Xcompiler -O2
 LIBS := -lm
 
 all: $(targets)
